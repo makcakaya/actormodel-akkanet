@@ -16,6 +16,9 @@ namespace MovieStreaming
             Props playbackActorProps = Props.Create<PlaybackActor>();
 
             IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "PlaybackActor");
+            playbackActorRef.Tell("Akka.NET: The Movie");
+            playbackActorRef.Tell(42);
+            playbackActorRef.Tell('f');
 
             Console.ReadLine();
 
