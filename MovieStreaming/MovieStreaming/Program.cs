@@ -14,16 +14,26 @@ namespace MovieStreaming
             MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
             Console.WriteLine("Actor system created.");
 
-            Props playbackActorProps = Props.Create<PlaybackActor>();
-            IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "PlaybackActor");
+            Props userActorProps = Props.Create<UserActor>();
+            IActorRef userActorRef = MovieStreamingActorSystem.ActorOf(userActorProps, "UserActor");
 
-            playbackActorRef.Tell(new PlayMovieMessage("Akka.NET: The Movie", 42));
-            playbackActorRef.Tell(new PlayMovieMessage("Partial Recall", 99));
-            playbackActorRef.Tell(new PlayMovieMessage("Boolean Lies", 77));
-            playbackActorRef.Tell(new PlayMovieMessage("Codenan the Destroyer", 1));
+            Console.ReadKey();
+            Console.WriteLine("Sending a PlayMovieMessage (Codenan the Destroyer)");
+            userActorRef.Tell(new PlayMovieMessage("Codenan the Destroyer", 42));
 
-            playbackActorRef.Tell(PoisonPill.Instance);
+            Console.ReadKey();
+            Console.WriteLine("Sending another PlayMovieMessage (Boolean Lies)");
+            userActorRef.Tell(new PlayMovieMessage("Boolean Lies", 42));
 
+            Console.ReadKey();
+            Console.WriteLine("Sending a StopMovieMessage");
+            userActorRef.Tell(new StopMovieMessage());
+
+            Console.ReadKey();
+            Console.WriteLine("Sending another StopMovieMessage");
+            userActorRef.Tell(new StopMovieMessage());
+
+            // Press any key to start termination of system
             Console.ReadKey();
 
             // Tell actory system (ann all child actors) to terminate
@@ -31,6 +41,8 @@ namespace MovieStreaming
             // Wait for actor system to finish termination
             MovieStreamingActorSystem.AwaitTermination();
             Console.WriteLine("Actor system terminated.");
+
+            Console.ReadKey();
         }
     }
 }
