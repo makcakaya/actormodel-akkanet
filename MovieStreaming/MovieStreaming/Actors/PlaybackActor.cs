@@ -11,14 +11,37 @@ namespace MovieStreaming.Actors
             Console.WriteLine("Creating a PlaybackActor");
 
             // Actor will receive only PlayMovieMessage with UserId of 42.
-            Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message),
-                message => message.UserId == 42);
+            Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
         }
 
         private void HandlePlayMovieMessage(PlayMovieMessage message)
         {
-            Console.WriteLine("Received movie title " + message.MovieTitle);
-            Console.WriteLine("Received user Id " + message.UserId);
+            ColorConsole.WriteLineYellow(string.Format("PlayMovieMessage '{0}' for user {1}",
+                message.MovieTitle, message.UserId));
+        }
+
+        protected override void PreStart()
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PreStart");
+        }
+
+        protected override void PostStop()
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PostStop");
+        }
+
+        protected override void PreRestart(Exception reason, object message)
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PreRestart because: " + reason);
+
+            base.PreRestart(reason, message);
+        }
+
+        protected override void PostRestart(Exception reason)
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PostRestart because: " + reason);
+
+            base.PostRestart(reason);
         }
     }
 }
