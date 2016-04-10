@@ -12,32 +12,24 @@ namespace MovieStreaming.Actors
         {
             Console.WriteLine("Creating a UserActor");
 
-            Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
-            Receive<StopMovieMessage>(message => HandleStopMovieMessage());
+            ColorConsole.WriteLineCyan("Setting initial behaviour to stopped");
+            Stopped();
         }
 
-        private void HandlePlayMovieMessage(PlayMovieMessage message)
+        private void Playing()
         {
-            if (_currentlyWatching != null)
-            {
-                ColorConsole.WriteLineRed("Error: cannot start playing another movie before stopping existing one");
-            }
-            else
-            {
-                StartPlayingMovie(message.MovieTitle);
-            }
+            Receive<PlayMovieMessage>(message => ColorConsole.WriteLineRed("Error: cannot start playing another movie before stopping existing one."));
+            Receive<StopMovieMessage>(message => StopPlayingCurrentMovie());
+
+            ColorConsole.WriteLineCyan("UserActor has now become Playing");
         }
 
-        private void HandleStopMovieMessage()
+        private void Stopped()
         {
-            if (_currentlyWatching == null)
-            {
-                ColorConsole.WriteLineRed("Error: cannot stop if nothing is playing");
-            }
-            else
-            {
-                StopPlayingCurrentMovie();
-            }
+            Receive<PlayMovieMessage>(message => StartPlayingMovie(message.MovieTitle));
+            Receive<StopMovieMessage>(message => ColorConsole.WriteLineRed("Error: cannot stop if nothing is playing"));
+
+            ColorConsole.WriteLineCyan("UserActor has now become Stopped");
         }
 
         private void StopPlayingCurrentMovie()
@@ -45,6 +37,8 @@ namespace MovieStreaming.Actors
             ColorConsole.WriteLineYellow(string.Format("User has stopped watching '{0}'", _currentlyWatching));
 
             _currentlyWatching = null;
+
+            Become(Stopped);
         }
 
         private void StartPlayingMovie(string title)
@@ -52,6 +46,8 @@ namespace MovieStreaming.Actors
             _currentlyWatching = title;
 
             ColorConsole.WriteLineYellow(string.Format("User is currently watching '{0}'", _currentlyWatching));
+
+            Become(Playing);
         }
 
         protected override void PreStart()

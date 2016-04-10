@@ -14,6 +14,11 @@ namespace MovieStreaming
             WriteLineColor(message, ConsoleColor.Yellow);
         }
 
+        internal static void WriteLineCyan(string message)
+        {
+            WriteLineColor(message, ConsoleColor.Cyan);
+        }
+
         internal static void WriteLineRed(string message)
         {
             WriteLineColor(message, ConsoleColor.Red);
