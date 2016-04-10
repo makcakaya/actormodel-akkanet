@@ -22,6 +22,8 @@ namespace MovieStreaming
             playbackActorRef.Tell(new PlayMovieMessage("Boolean Lies", 77));
             playbackActorRef.Tell(new PlayMovieMessage("Codenan the Destroyer", 1));
 
+            playbackActorRef.Tell(PoisonPill.Instance);
+
             Console.ReadKey();
 
             // Tell actory system (ann all child actors) to terminate
