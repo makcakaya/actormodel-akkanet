@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
-using MovieStreaming.Actors;
-using MovieStreaming.Messages;
+using MovieStreaming.Common;
+using MovieStreaming.Common.Actors;
+using MovieStreaming.Common.Messages;
 using System;
 using System.Threading;
 
@@ -13,6 +14,7 @@ namespace MovieStreaming
         static void Main(string[] args)
         {
             ColorConsole.WriteLineGray("Creating MovieStreamingActorSystem");
+
             MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");

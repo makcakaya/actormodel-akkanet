@@ -1,4 +1,4 @@
-﻿namespace MovieStreaming.Messages
+﻿namespace MovieStreaming.Common.Messages
 {
     public sealed class StopMovieMessage
     {

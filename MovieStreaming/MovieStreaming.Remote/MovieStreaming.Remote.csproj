@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{01564BC3-BC4B-419A-87FF-6C760DD72D4F}</ProjectGuid>
+    <ProjectGuid>{6CCEA5FC-8B65-4F0D-B7F5-AFDD30687F74}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MovieStreaming</RootNamespace>
-    <AssemblyName>MovieStreaming</AssemblyName>
+    <RootNamespace>MovieStreaming.Remote</RootNamespace>
+    <AssemblyName>MovieStreaming.Remote</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

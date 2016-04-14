@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieStreaming
+namespace MovieStreaming.Common
 {
     public static class ColorConsole
     {
@@ -24,17 +24,17 @@ namespace MovieStreaming
             WriteLineColor(message, ConsoleColor.White, args);
         }
 
-        internal static void WriteLineGray(string message, params object[] args)
+        public static void WriteLineGray(string message, params object[] args)
         {
             WriteLineColor(message, ConsoleColor.Gray, args);
         }
 
-        internal static void WriteLineCyan(string message, params object[] args)
+        public static void WriteLineCyan(string message, params object[] args)
         {
             WriteLineColor(message, ConsoleColor.Cyan, args);
         }
 
-        internal static void WriteLineRed(string message, params object[] args)
+        public static void WriteLineRed(string message, params object[] args)
         {
             WriteLineColor(message, ConsoleColor.Red, args);
         }

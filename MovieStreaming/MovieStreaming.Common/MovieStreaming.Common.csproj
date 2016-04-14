@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{01564BC3-BC4B-419A-87FF-6C760DD72D4F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E65826CA-23AF-401A-AE0E-7A27C4B98101}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MovieStreaming</RootNamespace>
-    <AssemblyName>MovieStreaming</AssemblyName>
+    <RootNamespace>MovieStreaming.Common</RootNamespace>
+    <AssemblyName>MovieStreaming.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,22 +32,6 @@
   <ItemGroup>
     <Reference Include="Akka, Version=1.0.7.18, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.1.0.7\lib\net45\Akka.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Akka.Remote, Version=1.0.7.18, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Akka.Remote.1.0.7\lib\net45\Akka.Remote.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers.Serialization, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Helios, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Helios.1.4.1\lib\net45\Helios.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -71,18 +52,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Actors\MoviePlayCounterActor.cs" />
+    <Compile Include="Actors\PlaybackActor.cs" />
+    <Compile Include="Actors\PlaybackStatisticsActor.cs" />
+    <Compile Include="Actors\UserActor.cs" />
+    <Compile Include="Actors\UserCoordinatorActor.cs" />
+    <Compile Include="ColorConsole.cs" />
+    <Compile Include="Exceptions\SimulatedCorruptStateException.cs" />
+    <Compile Include="Exceptions\SimulatedTerribleMovieException.cs" />
+    <Compile Include="Messages\IncrementPlayCountMessage.cs" />
+    <Compile Include="Messages\PlayMovieMessage.cs" />
+    <Compile Include="Messages\StopMovieMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MovieStreaming.Common\MovieStreaming.Common.csproj">
-      <Project>{e65826ca-23af-401a-ae0e-7a27c4b98101}</Project>
-      <Name>MovieStreaming.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
