@@ -46,6 +46,8 @@ namespace MovieStreaming.Actors
 
             ColorConsole.WriteLineYellow(string.Format("User is currently watching '{0}'", _currentlyWatching));
 
+            Context.ActorSelection("/user/Playback/PlaybackStatistics/MoviePlayCounter").Tell(new IncrementPlayCountMessage(title));
+
             Become(Playing);
         }
 

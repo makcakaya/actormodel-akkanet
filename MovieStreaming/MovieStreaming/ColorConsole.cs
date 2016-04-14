@@ -4,6 +4,11 @@ namespace MovieStreaming
 {
     public static class ColorConsole
     {
+        public static void WriteMagenta(string message, params object[] args)
+        {
+            WriteLineColor(message, ConsoleColor.Magenta, args);
+        }
+
         public static void WriteLineGreen(string message, params object[] args)
         {
             WriteLineColor(message, ConsoleColor.Green, args);
