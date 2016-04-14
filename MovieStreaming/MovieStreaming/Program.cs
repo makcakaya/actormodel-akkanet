@@ -2,6 +2,7 @@
 using MovieStreaming.Actors;
 using MovieStreaming.Messages;
 using System;
+using System.Threading;
 
 namespace MovieStreaming
 {
@@ -11,38 +12,53 @@ namespace MovieStreaming
 
         static void Main(string[] args)
         {
+            ColorConsole.WriteLineGray("Creating MovieStreamingActorSystem");
             MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
-            Console.WriteLine("Actor system created.");
 
-            Props userActorProps = Props.Create<UserActor>();
-            IActorRef userActorRef = MovieStreamingActorSystem.ActorOf(userActorProps, "UserActor");
+            ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
+            MovieStreamingActorSystem.ActorOf(Props.Create<PlaybackActor>(), "Playback");
 
-            Console.ReadKey();
-            Console.WriteLine("Sending a PlayMovieMessage (Codenan the Destroyer)");
-            userActorRef.Tell(new PlayMovieMessage("Codenan the Destroyer", 42));
+            do
+            {
+                ShortPause();
 
-            Console.ReadKey();
-            Console.WriteLine("Sending another PlayMovieMessage (Boolean Lies)");
-            userActorRef.Tell(new PlayMovieMessage("Boolean Lies", 42));
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                ColorConsole.WriteLineGray("Enter a command and hit enter.");
 
-            Console.ReadKey();
-            Console.WriteLine("Sending a StopMovieMessage");
-            userActorRef.Tell(new StopMovieMessage());
+                var command = Console.ReadLine();
 
-            Console.ReadKey();
-            Console.WriteLine("Sending another StopMovieMessage");
-            userActorRef.Tell(new StopMovieMessage());
+                if (command.StartsWith("play"))
+                {
+                    var userId = int.Parse(command.Split(',')[1]);
+                    var movieTitle = command.Split(',')[2];
 
-            // Press any key to start termination of system
-            Console.ReadKey();
+                    var message = new PlayMovieMessage(movieTitle, userId);
+                    MovieStreamingActorSystem.ActorSelection("/user/Playback/UserCoordinator").Tell(message);
+                }
 
-            // Tell actory system (ann all child actors) to terminate
-            MovieStreamingActorSystem.Terminate();
-            // Wait for actor system to finish termination
-            MovieStreamingActorSystem.AwaitTermination();
-            Console.WriteLine("Actor system terminated.");
+                if (command.StartsWith("stop"))
+                {
+                    var userId = int.Parse(command.Split(',')[1]);
 
-            Console.ReadKey();
+                    var message = new StopMovieMessage(userId);
+                    MovieStreamingActorSystem.ActorSelection("/user/Playback/UserCoordinator").Tell(message);
+                }
+
+                if (command.StartsWith("exit"))
+                {
+                    MovieStreamingActorSystem.Shutdown();
+                    MovieStreamingActorSystem.AwaitTermination();
+                    ColorConsole.WriteLineGray("Actor system shutdown.");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                }
+            } while (true);
+        }
+
+        private static void ShortPause()
+        {
+            Thread.Sleep(1000);
         }
     }
 }

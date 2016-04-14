@@ -1,5 +1,4 @@
 ﻿using Akka.Actor;
-using MovieStreaming.Messages;
 using System;
 
 namespace MovieStreaming.Actors
@@ -8,16 +7,8 @@ namespace MovieStreaming.Actors
     {
         public PlaybackActor()
         {
-            Console.WriteLine("Creating a PlaybackActor");
-
-            // Actor will receive only PlayMovieMessage with UserId of 42.
-            Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
-        }
-
-        private void HandlePlayMovieMessage(PlayMovieMessage message)
-        {
-            ColorConsole.WriteLineYellow(string.Format("PlayMovieMessage '{0}' for user {1}",
-                message.MovieTitle, message.UserId));
+            Context.ActorOf(Props.Create<UserCoordinatorActor>(), "UserCoordinator");
+            Context.ActorOf(Props.Create<PlaybackStatisticsActor>(), "PlaybackStatistics");
         }
 
         protected override void PreStart()

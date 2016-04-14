@@ -7,12 +7,11 @@ namespace MovieStreaming.Actors
     public sealed class UserActor : ReceiveActor
     {
         private string _currentlyWatching;
+        private int _userId;
 
-        public UserActor()
+        public UserActor(int userId)
         {
-            Console.WriteLine("Creating a UserActor");
-
-            ColorConsole.WriteLineCyan("Setting initial behaviour to stopped");
+            _userId = userId;
             Stopped();
         }
 
@@ -21,7 +20,7 @@ namespace MovieStreaming.Actors
             Receive<PlayMovieMessage>(message => ColorConsole.WriteLineRed("Error: cannot start playing another movie before stopping existing one."));
             Receive<StopMovieMessage>(message => StopPlayingCurrentMovie());
 
-            ColorConsole.WriteLineCyan("UserActor has now become Playing");
+            ColorConsole.WriteLineYellow("UserActor {0} has now become Playing", _userId);
         }
 
         private void Stopped()
@@ -29,7 +28,7 @@ namespace MovieStreaming.Actors
             Receive<PlayMovieMessage>(message => StartPlayingMovie(message.MovieTitle));
             Receive<StopMovieMessage>(message => ColorConsole.WriteLineRed("Error: cannot stop if nothing is playing"));
 
-            ColorConsole.WriteLineCyan("UserActor has now become Stopped");
+            ColorConsole.WriteLineYellow("UserActor has now become Stopped", _userId);
         }
 
         private void StopPlayingCurrentMovie()
@@ -52,7 +51,7 @@ namespace MovieStreaming.Actors
 
         protected override void PreStart()
         {
-            ColorConsole.WriteLineGreen("UserActor PreStart");
+            ColorConsole.WriteLineYellow("UserActor {0} PreStart", _userId);
         }
 
         protected override void PostStop()
